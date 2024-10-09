@@ -2,21 +2,19 @@
 
 #include <iostream>
 
-void (*RequestExitWithStatus)(bool Force, unsigned char Code);
-void RequestExitWithStatusHook(bool Force, unsigned char Code) // 3 args newer version
+inline void RequestExitWithStatusHook(bool Force, unsigned char Code)
 {
-	// printf("[VEH] RequestExitWithStatus Call Forced: %i ReturnCode: %u\n", Force, Code);
+    // std::cout << "[VEH] RequestExitWithStatus Call Forced: " << Force << " ReturnCode: " << static_cast<int>(Code) << '\n';
 }
 
-void (*RequestExit)(int Code);
-void RequestExitHook(int Code)
+inline void RequestExitHook(int Code)
 {
-	std::cout << "REQUEST EXIT CODE: " << Code << '\n';
+    static char buffer[256];  
+    snprintf(buffer, sizeof(buffer), "REQUEST EXIT CODE: %d\n", Code); 
+    std::cout << buffer;
 }
 
-void (*UnsafeEnvironmentPopup)(wchar_t** unknown1, unsigned __int8 _case, __int64 unknown2, char unknown3);
-
-void UnsafeEnvironmentPopupHook(wchar_t** unknown1, unsigned __int8 _case, __int64 unknown2, char unknown3)
+inline void UnsafeEnvironmentPopupHook(wchar_t** unknown1, unsigned __int8 _case, __int64 unknown2, char unknown3)
 {
-	// printf("[VEH] <UnsafeEnvironmentPopup Call with Case: %i\n", _case);
+    // std::cout << "[VEH] <UnsafeEnvironmentPopup Call with Case: " << static_cast<int>(_case) << '\n';
 }
